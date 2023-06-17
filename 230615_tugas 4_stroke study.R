@@ -93,14 +93,36 @@ round(cor(stroke_bart), digits = 2) # rounded to 2 decimals
 #nilai correlation coefficient semakin berkurang jika jarak antar minggu semakin bertambah
 
 #NOMOR 7
-#membuat model dengan random intercept dan random slopes
-library(lme4)
+#mengekstraksi nilai koefisien dari model
+ml <- lmList(Bart_Score ~ Time | Subject, stroke_long)
+summary(ml)
+intercepts <- sapply(ml,coef)[1,]
+summary(intercepts)
+slopes <- sapply(ml,coef)[2,]
 
-#membuat model
-stroke_mm <- lmer (Bart_Score ~ Time + (1 + Time |Subject), data = stroke_long)
-
-#meng-ekstrak koefisien dari mixed-model stroke
-coef(stroke_mm)
-beta <- coef(stroke_mm)$Subject
-colnames(beta) <- c("Intercept", "Slope")
-View(beta)
+Hasil:
+      Intercept    Std. Error      Slope     Std. Error
+I     30.0000000    4.03722       7.5000000  0.7994887 
+II    15.5357143    4.03722       3.2142857  0.7994887  
+III   39.8214286    4.03722       6.4285714  0.7994887 
+IV    11.6071429    4.03722       8.3928571  0.7994887
+V    100.0000000        NaN       0.0000000        NaN 
+VI     0.8928571    4.03722      11.1904762  0.7994887 
+VII   15.3571429    4.03722       7.9761905  0.7994887 
+VIII  25.3571429    4.03722       5.8928571  0.7994887 
+1     38.5714286    4.03722       7.2619048  0.7994887 
+2     61.9642857    4.03722       2.6190476  0.7994887  
+3     14.4642857    4.03722       9.7023810  0.7994887 
+4     26.0714286    4.03722       2.6785714  0.7994887 
+5     48.7500000    4.03722       5.0000000  0.7994887 
+6     10.1785714    4.03722       1.0714286  0.7994887 
+7     31.2500000    4.03722       2.5000000  0.7994887 
+8     34.1071429    4.03722       3.8095238  0.7994887
+A     21.0714286    4.03722       1.4285714  0.7994887 
+B     34.1071429    4.03722       0.8928571  0.7994887  
+C     32.1428571    4.03722       1.6071429  0.7994887 
+D     42.3214286    4.03722       7.2619048  0.7994887 
+E     48.5714286    4.03722       7.2619048  0.7994887 
+F     24.8214286    4.03722       2.2619048  0.7994887 
+G     22.3214286    4.03722       1.8452381  0.7994887 
+H     13.0357143    4.03722       6.5476190  0.7994887
